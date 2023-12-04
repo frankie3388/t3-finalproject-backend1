@@ -8,7 +8,9 @@ databaseConnect().then(async () => {
     console.log("Creating seed data!");
 
     // const Blog = mongoose.model('Blog', {
+    // blogid: Number,
 	// 	title: String,
+    // location: String,
 	// 	body: String, 
 	// 	tags: String,
 	// 	favouritePlacesToChill: [String],
@@ -16,7 +18,9 @@ databaseConnect().then(async () => {
 	// }};
 
     let newBlog = new Blog({
+        blogid: 1,
         title: "Welcome to Japan",
+        location: "http://googlemaps.com",
 		body: "This blog post is about Japan", 
 		tags: ["Japan", "Tokyo", "Osaka", "Hokkaido", "Okinawa"],
 		favouritePlacesToChill: ["Shinjuku", "Shibuya"],
