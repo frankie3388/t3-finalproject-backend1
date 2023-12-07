@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+	userid: {
+		type: Number,
+		required: true,
+		unique: true
+	},
 	username: {
 		type: String,
 		required: true,
@@ -12,7 +17,38 @@ const UserSchema = new Schema({
 		type: String,
 		required: true,
 		unique: false
-	}
+	},
+	firstname: {
+		type: String,
+		required: true,
+		unique: false
+	},
+	lastname: {
+		type: String,
+		required: true,
+		unique: false
+	},
+	email: {
+		type: String,
+		required: true,
+		unique: true
+	},
+	regionsofinterest: {
+		type: String,
+		required: true,
+		unique: false
+	},
+	countriesofinterest: {
+		type: String,
+		required: true,
+		unique: false
+	},
+	isadmin: {
+		type: Boolean,
+		required: true,
+		unique: false
+	},
+
 });
 
 UserSchema.pre(

@@ -7,12 +7,32 @@ const BlogSchema = new Schema({
 		required: true,
 		unique: true
     },
+	date: {
+		type: date,
+		required: true,
+		unique: false
+	},
     title: {
 		type: String,
 		required: true,
 		unique: false
 	},
-    location: {
+    locationname: {
+		type: String,
+		required: true,
+		unique: false
+	},
+	locationaddress: {
+		type: String,
+		required: true,
+		unique: false
+	},
+	locatiocity: {
+		type: String,
+		required: true,
+		unique: false
+	},
+	locationcountry: {
 		type: String,
 		required: true,
 		unique: false
@@ -22,21 +42,22 @@ const BlogSchema = new Schema({
 		required: true,
 		unique: false
 	},
-	favouritePlacesToChill: {
-		type: [String],
-		required: false,
-		unique: false
-	},
 	tags: {
 		type: String,
 		required: true,
 		unique: false
 	},
-	photos: {
+	imagedata: {
 		type: String,
 		required: true,
 		unique: false
-	}
+	},
+	userid: {
+		type: String,
+		required: true,
+		unique: false,
+		isforeignkey: true
+	},
 	
 });
 
