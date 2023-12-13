@@ -27,7 +27,7 @@ const BlogSchema = new Schema({
 		required: true,
 		unique: false
 	},
-	locatiocity: {
+	locationcity: {
 		type: String,
 		required: true,
 		unique: false
@@ -58,7 +58,11 @@ const BlogSchema = new Schema({
 		unique: false,
 		isforeignkey: true
 	},
-	
+	like: {
+		type: Number,
+		required: true,
+		unique: false
+	}
 });
 
 const Blog = mongoose.model('Blog', BlogSchema);

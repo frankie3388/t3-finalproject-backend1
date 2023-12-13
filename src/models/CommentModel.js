@@ -17,11 +17,6 @@ const CommentSchema = new Schema({
 		required: true,
 		unique: false
 	},
-    like: {
-		type: Number,
-		required: true,
-		unique: false
-	},
 	userid: {
 		type: String,
 		required: true,
