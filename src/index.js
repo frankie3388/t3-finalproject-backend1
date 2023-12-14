@@ -30,7 +30,7 @@ app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
 
-app.listen(3000, async () => {
+app.listen(5000, async () => {
 	await databaseConnect();
 	console.log("Server running!");
 });
