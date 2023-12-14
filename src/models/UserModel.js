@@ -47,7 +47,7 @@ const UserSchema = new Schema({
 		type: Boolean,
 		required: true,
 		unique: false
-	},
+	}, 
 
 });
 
