@@ -8,7 +8,7 @@ const BlogSchema = new Schema({
 		unique: true
     },
 	date: {
-		type: date,
+		type: String,
 		required: true,
 		unique: false
 	},
