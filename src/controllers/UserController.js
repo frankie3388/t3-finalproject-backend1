@@ -31,16 +31,16 @@ router.get('/users/:userid', async (req, res) => {
   });
 
 // POST /users - Create a new user
-router.post('/users', async (req, res) => {
+router.post('/createuser', async (req, res) => {
     try {
-        const { username, email } = req.body;
+        const { username, password, firstName, lastName, email, regionsOfInterest, countriesOfInterest,  isAdmin} = req.body;
 
         // Validate request body
-        if (!username || !email) {
+        if (!username || !email || !password || !firstName || !lastName || !regionsOfInterest || !countriesOfInterest) {
             return res.status(400).json({ error: 'Please provide username and email' });
     }
 
-    const user = new User({ username, email });
+    const user = new User({ username, password, firstName, lastName, email, regionsOfInterest, countriesOfInterest, isAdmin });
         await user.save();
 
     res.json(user);
