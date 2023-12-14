@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
-const User = require("./models/User");
+const User = require("./models/UserModel");
 const { databaseConnect } = require('./database');
 
 mongoose.connect("mongodb+srv://patAdmin:Password1@travellingdiarydb.ogaozxp.mongodb.net/?retryWrites=true&w=majority", {
