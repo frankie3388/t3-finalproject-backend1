@@ -4,12 +4,12 @@ const router = express.Router();
 
 // Find All blogs in the DB
 router.get("/all", async (request, response) => {
-	// Empty object in .find() means get ALL documents
-	let result = await Blog.find({});
+    // Empty object in .find() means get ALL documents
+    const result = await Blog.find({}).populate('user');
 
-	response.json({
-		Blog: result
-	});
+    response.json({
+        Blog: result
+    });
 
 });
 
