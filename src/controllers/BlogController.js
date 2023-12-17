@@ -33,14 +33,37 @@ router.get("/multiple/title/:titleToSearchFor", async (request, response) => {
 
 });
 
+
 // Find blog by its location 
-router.get("/multiple/location/:locationToFilterBy", async (request, response) => {
-	let result = null;
+router.get("/multiple/location", async (request, response) => {
+    try {
+        const locationToFilterBy = request.query.locationToFilterBy;
 
-	response.json({
-		Blog: result
-	});
+        // Use a regular expression to perform a case-insensitive search on multiple fields
+        const result = await Blog.find({
+            $or: [
+                { locationname: { $regex: `^${locationToFilterBy}$`, $options: 'i' } },
+                { locationaddress: { $regex: `^${locationToFilterBy}$`, $options: 'i' } },
+                { locationcity: { $regex: `^${locationToFilterBy}$`, $options: 'i' } },
+                { locationcountry: { $regex: `^${locationToFilterBy}$`, $options: 'i' } },
+            ],
+        });
 
+        console.log("Query result:", result);
+
+        if (result.length > 0) {
+            response.json({
+                data: result,
+            });
+        } else {
+            console.log("No blogs exist with the location specified " + locationToFilterBy);
+            response.status(404).json({ error: `No blogs found with the location: ${locationToFilterBy}` });
+        }
+
+    } catch (error) {
+        console.error("Error fetching blogs:", error);
+        response.status(500).json({ error: "Internal Server Error" });
+    }
 });
 
 
