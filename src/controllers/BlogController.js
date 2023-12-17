@@ -14,23 +14,43 @@ router.get("/all", async (request, response) => {
 });
 
 // Find one blog by its ID
-router.get("/one/id/:id", async (request, response) => {
-	let result = null;
+router.get("/:id", async (request, response) => {
+    try {
+      const blogId = request.params.id;
+  
+      const result = await Blog.findById(blogId).populate('user');
+  
+      if (!result) {
+        return response.status(404).json({ error: 'Blog not found' });
+      }
+  
+      response.json({
+        Blog: result
+      });
+    } catch (error) {
+      console.error("Error fetching blog by ID:", error);
+      response.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
-	response.json({
-		Blog: result
-	});
+// Find all blogs by username
+router.get("/multiple/username", async (request, response) => {
+    try {
+        const blogUsername = request.query.username;
 
-});
+        const result = await Blog.find({ blogUsername }).populate('user');
 
-// Find blog by its title 
-router.get("/multiple/title/:titleToSearchFor", async (request, response) => {
-	let result = null;
-
-	response.json({
-		Blog: result
-	});
-
+        if (!result || result.length === 0) {
+            return response.status(404).json({ error: 'Blogs not found' });
+        }
+        console.log("Query result:", result);
+        response.json({
+            data: result
+        });
+    } catch (error) {
+        console.error("Error fetching blogs by username:", error);
+        response.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 
