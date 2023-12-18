@@ -94,7 +94,7 @@ router.patch("/:commentid", async (request, response) => {
 // and delete it from the DB.
 router.delete('/comment/:commentId', async (req, res) => {
 	try {
-		const commentId = await User.findByIdAndDelete(req.params.userid);
+		const commentId = await Comment.findByIdAndDelete(req.params.commentId);
 		if (!commentId) {
 		  return res.status(404).json({ error: 'Comment not found' });
 		}
