@@ -37,9 +37,9 @@ router.get("/:id", async (request, response) => {
 // Find all blogs by username
 router.get("/multiple/username", async (request, response) => {
     try {
-        const blogUsername = request.query.username;
-
-        const result = await Blog.find({ blogUsername }).populate('user');
+        const blogUsername = request.query.q;
+        const user_id = await User.findOne({username: blogUsername})
+        const result = await Blog.find({ user: user_id }).populate('user');
 
         if (!result || result.length === 0) {
             return response.status(404).json({ error: 'Blogs not found' });
