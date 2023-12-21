@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const BlogSchema = new Schema({
-	// blogid: {
-	// 	type: Number,
-	// 	required: true,
-	// 	unique: true
-    // },
 	date: {
 		type: Date,
 		required: false,
@@ -46,6 +41,11 @@ const BlogSchema = new Schema({
 	imagedata: {
 		type: String,
 		required: true,
+		unique: false
+	},
+	imageUrl: {
+		type: String,
+		required: false,
 		unique: false
 	},
 	user: {
