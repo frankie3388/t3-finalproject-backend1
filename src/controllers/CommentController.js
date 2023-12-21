@@ -109,7 +109,16 @@ router.patch("/commentid", authenticateJWT, async (request, response) => {
             response.json({
                 Comment: result
             });
-
+		} else {
+            const errorMessage = "You are not authorized to edit this comment";
+            response.status(403).json({
+                Comment: errorMessage
+            });
+        }
+    } catch (error) {
+        console.error("Error updating comment by ID:", error);
+        response.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 // Find one comment by its ID,
