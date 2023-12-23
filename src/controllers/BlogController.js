@@ -131,7 +131,7 @@ router.get("/multiple/location", authenticateJWT, async (request, response) => {
                 { locationcity: { $regex: `^${locationToFilterBy}$`, $options: 'i' } },
                 { locationcountry: { $regex: `^${locationToFilterBy}$`, $options: 'i' } },
             ],
-        });
+        }).populate('user');
 
                 console.log("Query result:", results);
 
