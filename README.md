@@ -111,6 +111,18 @@ Multer is a middleware for handling multipart/form-data in Node.js. Multer can p
 sharp": "^0.33.1"
 Sharp is a high-performance image processing library for Node.js. It provides a simple and efficient API for resizing, cropping, and manipulating images. Sharp is often used in web applications for generating thumbnails, optimizing images, and performing other image-related tasks.
 
+#### Summary of reasoning to cut some planned features 
+
+- Dashboard
+- Google API implementation into Frontend
+- Comments and Likes 
+
+We experienced some set backs to the project through unexpected complications with implementing features for the backend mainly Amazon S3. This put a set back to our work allocation which caused us to not have enough time to implement Google Maps API into the Frontend. We felt it would've caused further set backs to try implement it and make sure it runs correctly. 
+
+Due to the set backs above we had to cut the User Dashboard and comments/likes feature. The two features were meant to come together to give the user much more responsiveness and feedback from the application. We had developed majority of the code and routes to have it ready for implementation but after some testing, we decided the feature wouldn't have added to the User experience and more likely cause errors to occurr ungracefully leaving a bad experience for the user. 
+
+This was a critical learning experience for us as developers to understand what errors we made in under estimating the effects of technical difficulties with certain aspects of the project. This experiene will allow us to plan projects much more effectively and improve communication as a team much more efficently. 
+
 
 Part A Readme
 
