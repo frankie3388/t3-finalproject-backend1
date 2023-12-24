@@ -1,129 +1,3 @@
-Part B portion of Readme.
-
-# **Patrick Apilukpuvadol and Francis Lam T3A2 - B**
-********************************
-## **Travelling Diary: MERN full-stack app assignment**
-*****************************************
-
-### Deployments
-
-#### Netlify
-
-https://beamish-narwhal-32cb29.netlify.app/
-
-#### Heroku
-
-https://travelling-diary-app-e5215403a509.herokuapp.com/
-
-### Manual Testing Google Sheet link 
-
-https://docs.google.com/spreadsheets/d/17P2HUkBbNlgAqrIDsdukFAv5Lii6WuCWzy-mV9b9Psw/edit?usp=sharing
-
-### Accounts to use for Testing
-
-user3:-
-email- user3@example.com
-password - password1
-
-‌admin:-
-email - admin@example.com
-password - password1
-
-‌Frankie:-
-email - user2@email.com
-password - password2
-
-Patrick:-
-email - user5@example.com
-password - password3
-
-#### Explanation of Packages and their uses for both the Frontend and Backend 
-
-##### Front-end
-
-@testing-library/jest-dom (^5.17.0):
-This helps make it easier to test how your website looks and behaves by providing special tools for checking things like whether a certain element is visible or if a button is disabled.
-
-@testing-library/react (^13.4.0):
-This is a testing toolkit specifically made for React. It helps you test your React components in a way that's similar to how a user would interact with them.
-
-@testing-library/user-event (^13.5.0):
-This works alongside the previous package. It helps you simulate what a user might do, like typing in a form or clicking a button, to see if your components respond correctly.
-
-bootstrap (^5.3.2):
-This is a set of pre-made styles and components to make your website look good without having to design everything from scratch. It's like a shortcut for making your site visually appealing.
-
-dotenv (^16.3.1):
-This allows you to keep secret information, like passwords or API keys, separate from your code. It's like a safe place to store important but private details.
-react (^18.2.0):
-This is the main library you use to build your web application. It helps you create different parts of your website that can update and change without refreshing the whole page.
-
-react-bootstrap (^2.9.1):
-This is a special set of tools that helps you use Bootstrap with React. It's like a bridge between the cool styles and features of Bootstrap and the functional components you build with React.
-
-react-dom (^18.2.0):
-This helps React talk to the actual webpage. It's like the messenger between your React components and the browser.
-
-react-router-dom (^6.20.1):
-This is like a map for your website. It helps your React app figure out which "page" to show based on the web address. It's essential for creating multi-page applications.
-
-react-scripts (5.0.1):
-This is a bunch of tools and instructions that make it easy to start a new React project. It's like a helper that sets up everything you need to get going without having to worry about the details.
-
-web-vitals (^2.1.4):
-This helps you measure how well your website is performing for users. It's like a health checkup for your site to ensure it's running smoothly.
-
-jest-fetch-mock (^3.0.3):
-This is a helper for testing. It lets you pretend to make requests to the internet without actually doing it, so you can test how your app responds to data coming in. It's like a pretend internet for testing.
-
-##### Back-end
-
-@aws-sdk/client-s3": "^3.476.0"
-This package is a part of the AWS SDK for Javascript and gives us the capability to interact with the Amazon S3 service. It allows us to utlise features such as creating/deleting buckets, uploading/downloading files from those buckets and setting policies/permissions on them.
-
-@aws-sdk/s3-request-presigner": "^3.476.0"
-This package is also a part of the AWS SDK for Javascript and it gives us the capability to generate pre-signed URLS to allow temporary access to Amazon S3 resources without requiring AWS S3 credentials. It allows our users to gain temporary access to the S3 bucket to download or upload files through the web application. 
-
-bcrypt": "^5.1.1"
-This package is used for password hashing and is commonly used in web applications for securely storing user passwords. It allows us to hash passwords using a "salt" and a configurable number rounds of hashing. This makes reversing the process difficult and improves security as opposed to storing passwords as plain text. 
-
-bcryptjs": "^2.4.3"
-This package is an alternative to "bcrypt" and provides similar functionality for password hashing
-
-cors": "^2.8.5"
-This package is used to enable Cross-Origin Resource Sharing (CORS) in an Express.js application. CORS is a mechanism that allows resources (e.g., fonts, JavaScript, etc.) on a web page to be requested from another domain outside the domain from which the resource originated. t helps in preventing cross-origin security issues by specifying which origins are allowed to access the resources.
-
-dotenv": "^16.3.1"
-This package allows us to load environment variables from a .env file into Node.js applications. It allows us to utilise Environment variables that are useful for storing sensitive information (e.g., API keys, database credentials) outside of the codebase. 
-
-express": "^4.18.2"
-Express.js is a popular web application framework for Node.js. It provides a set of features and utilities for building web applications and APIs. Express simplifies the process of handling HTTP requests, routing, middleware, and more.
-
-jsonwebtoken": "^9.0.2"
-This package is used for generating and verifying JSON Web Tokens (JWT) in Node.js applications. JWTs are a compact, URL-safe means of representing claims between two parties. They are commonly used for authentication and authorization purposes.
-
-mongoose": "^8.0.3"
-Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It provides us a straightforward way to interact with MongoDB databases by defining schemas and models. this package simplifies tasks like data validation, querying, and managing relationships between data.
-
-multer": "^1.4.5-lts.1"
-Multer is a middleware for handling multipart/form-data in Node.js. Multer can parse and store uploaded files, making it easy to process and save them to a storage system.
-
-sharp": "^0.33.1"
-Sharp is a high-performance image processing library for Node.js. It provides a simple and efficient API for resizing, cropping, and manipulating images. Sharp is often used in web applications for generating thumbnails, optimizing images, and performing other image-related tasks.
-
-#### Summary of reasoning to cut some planned features 
-
-- Dashboard
-- Google API implementation into Frontend
-- Comments and Likes 
-
-We experienced some set backs to the project through unexpected complications with implementing features for the backend mainly Amazon S3. This put a set back to our work allocation which caused us to not have enough time to implement Google Maps API into the Frontend. We felt it would've caused further set backs to try implement it and make sure it runs correctly. 
-
-Due to the set backs above we had to cut the User Dashboard and comments/likes feature. The two features were meant to come together to give the user much more responsiveness and feedback from the application. We had developed majority of the code and routes to have it ready for implementation but after some testing, we decided the feature wouldn't have added to the User experience and more likely cause errors to occurr ungracefully leaving a bad experience for the user. 
-
-This was a critical learning experience for us as developers to understand what errors we made in under estimating the effects of technical difficulties with certain aspects of the project. This experiene will allow us to plan projects much more effectively and improve communication as a team much more efficently. 
-
-
 Part A Readme
 
 # **Patrick Apilukpuvadol and Francis Lam T3A1**
@@ -409,3 +283,131 @@ The picture below shows how each page in the application will link together. The
 - Other dependencies: Refer to the `package.json` files in the `server` and `client` directories for a full list of dependencies used.
 - Amazon S3: Image hosting service for storing image files and sourced via URL
 - Google API: API with geographical information for the app
+
+Part B portion of Readme.
+
+# **Patrick Apilukpuvadol and Francis Lam T3A2 - Part B submission on Canvas**
+********************************
+## **Travelling Diary: MERN full-stack app assignment**
+*****************************************
+
+### Deployments
+
+#### Netlify
+
+https://beamish-narwhal-32cb29.netlify.app/
+
+#### Heroku
+
+https://travelling-diary-app-e5215403a509.herokuapp.com/
+
+### Manual Testing Google Sheet link 
+
+https://docs.google.com/spreadsheets/d/17P2HUkBbNlgAqrIDsdukFAv5Lii6WuCWzy-mV9b9Psw/edit?usp=sharing
+
+### Accounts to use for Testing
+
+user3:-
+email- user3@example.com
+password - password1
+
+‌admin:-
+email - admin@example.com
+password - password1
+
+‌Frankie:-
+email - user2@email.com
+password - password2
+
+Patrick:-
+email - user5@example.com
+password - password3
+
+#### Explanation of Packages and their uses for both the Frontend and Backend 
+
+##### Front-end
+
+@testing-library/jest-dom (^5.17.0):
+This helps make it easier to test how your website looks and behaves by providing special tools for checking things like whether a certain element is visible or if a button is disabled.
+
+@testing-library/react (^13.4.0):
+This is a testing toolkit specifically made for React. It helps you test your React components in a way that's similar to how a user would interact with them.
+
+@testing-library/user-event (^13.5.0):
+This works alongside the previous package. It helps you simulate what a user might do, like typing in a form or clicking a button, to see if your components respond correctly.
+
+bootstrap (^5.3.2):
+This is a set of pre-made styles and components to make your website look good without having to design everything from scratch. It's like a shortcut for making your site visually appealing.
+
+dotenv (^16.3.1):
+This allows you to keep secret information, like passwords or API keys, separate from your code. It's like a safe place to store important but private details.
+react (^18.2.0):
+This is the main library you use to build your web application. It helps you create different parts of your website that can update and change without refreshing the whole page.
+
+react-bootstrap (^2.9.1):
+This is a special set of tools that helps you use Bootstrap with React. It's like a bridge between the cool styles and features of Bootstrap and the functional components you build with React.
+
+react-dom (^18.2.0):
+This helps React talk to the actual webpage. It's like the messenger between your React components and the browser.
+
+react-router-dom (^6.20.1):
+This is like a map for your website. It helps your React app figure out which "page" to show based on the web address. It's essential for creating multi-page applications.
+
+react-scripts (5.0.1):
+This is a bunch of tools and instructions that make it easy to start a new React project. It's like a helper that sets up everything you need to get going without having to worry about the details.
+
+web-vitals (^2.1.4):
+This helps you measure how well your website is performing for users. It's like a health checkup for your site to ensure it's running smoothly.
+
+jest-fetch-mock (^3.0.3):
+This is a helper for testing. It lets you pretend to make requests to the internet without actually doing it, so you can test how your app responds to data coming in. It's like a pretend internet for testing.
+
+##### Back-end
+
+@aws-sdk/client-s3": "^3.476.0"
+This package is a part of the AWS SDK for Javascript and gives us the capability to interact with the Amazon S3 service. It allows us to utlise features such as creating/deleting buckets, uploading/downloading files from those buckets and setting policies/permissions on them.
+
+@aws-sdk/s3-request-presigner": "^3.476.0"
+This package is also a part of the AWS SDK for Javascript and it gives us the capability to generate pre-signed URLS to allow temporary access to Amazon S3 resources without requiring AWS S3 credentials. It allows our users to gain temporary access to the S3 bucket to download or upload files through the web application. 
+
+bcrypt": "^5.1.1"
+This package is used for password hashing and is commonly used in web applications for securely storing user passwords. It allows us to hash passwords using a "salt" and a configurable number rounds of hashing. This makes reversing the process difficult and improves security as opposed to storing passwords as plain text. 
+
+bcryptjs": "^2.4.3"
+This package is an alternative to "bcrypt" and provides similar functionality for password hashing
+
+cors": "^2.8.5"
+This package is used to enable Cross-Origin Resource Sharing (CORS) in an Express.js application. CORS is a mechanism that allows resources (e.g., fonts, JavaScript, etc.) on a web page to be requested from another domain outside the domain from which the resource originated. t helps in preventing cross-origin security issues by specifying which origins are allowed to access the resources.
+
+dotenv": "^16.3.1"
+This package allows us to load environment variables from a .env file into Node.js applications. It allows us to utilise Environment variables that are useful for storing sensitive information (e.g., API keys, database credentials) outside of the codebase. 
+
+express": "^4.18.2"
+Express.js is a popular web application framework for Node.js. It provides a set of features and utilities for building web applications and APIs. Express simplifies the process of handling HTTP requests, routing, middleware, and more.
+
+jsonwebtoken": "^9.0.2"
+This package is used for generating and verifying JSON Web Tokens (JWT) in Node.js applications. JWTs are a compact, URL-safe means of representing claims between two parties. They are commonly used for authentication and authorization purposes.
+
+mongoose": "^8.0.3"
+Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It provides us a straightforward way to interact with MongoDB databases by defining schemas and models. this package simplifies tasks like data validation, querying, and managing relationships between data.
+
+multer": "^1.4.5-lts.1"
+Multer is a middleware for handling multipart/form-data in Node.js. Multer can parse and store uploaded files, making it easy to process and save them to a storage system.
+
+sharp": "^0.33.1"
+Sharp is a high-performance image processing library for Node.js. It provides a simple and efficient API for resizing, cropping, and manipulating images. Sharp is often used in web applications for generating thumbnails, optimizing images, and performing other image-related tasks.
+
+#### Summary of reasoning to cut some planned features 
+
+- Dashboard
+- Google API implementation into Frontend
+- Comments and Likes 
+
+We experienced some set backs to the project through unexpected complications with implementing features for the backend mainly Amazon S3. This put a set back to our work allocation which caused us to not have enough time to implement Google Maps API into the Frontend. We felt it would've caused further set backs to try implement it and make sure it runs correctly. 
+
+Due to the set backs above we had to cut the User Dashboard and comments/likes feature. The two features were meant to come together to give the user much more responsiveness and feedback from the application. We had developed majority of the code and routes to have it ready for implementation but after some testing, we decided the feature wouldn't have added to the User experience and more likely cause errors to occurr ungracefully leaving a bad experience for the user. 
+
+When Part B of the assignment was released, we discussed which part of the code we wanted to work on (frontend or backend). Francis decided to go with frontend, as he was more familiar with React, and Patrick was more comfortable with Node.js. We would also help each other out, if we ran into problems.
+ We continued to use trello to plan and manage our tasks. Every week we would update the trello board and plan out our tasks for the week and check the overall progress of the project. We would have meetings three times per week on discord to discuss the progress and difficulties of the application which helped keep us on track. We included a testing column and a cancelled column in the trello board for Part B.
+
+ This was a critical learning experience for us as developers to understand what errors we made in under estimating the effects of technical difficulties with certain aspects of the project. This experiene will allow us to plan projects much more effectively and improve communication as a team much more efficently.
