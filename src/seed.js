@@ -6,7 +6,7 @@ const { User } = require("./models/UserModel");
 const { Blog } = require("./models/BlogModel");
 const { databaseConnect } = require('./database');
 
-mongoose.connect("mongodb+srv://patAdmin:Password1@travellingdiarydb.ogaozxp.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://frankie354:frankie35468@cluster0.om3gerr.mongodb.net/travellingdiary", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
