@@ -1,15 +1,10 @@
 require('dotenv').config();
 
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
 const { User } = require("./models/UserModel");
 const { Blog } = require("./models/BlogModel");
 const { databaseConnect } = require('./database');
-
-mongoose.connect("mongodb+srv://frankie354:frankie35468@cluster0.om3gerr.mongodb.net/travellingdiary", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
 
 databaseConnect().then(async () => {
 
