@@ -7,7 +7,7 @@ const app = express();
 const cors = require('cors');
 const corsOptions = {
     //            frontend localhost,  frontend deployed
-    origin: ["http://localhost:3000", "https://beamish-narwhal-32cb29.netlify.app"],
+    origin: ["http://localhost:3000", "https://dulcet-unicorn-920c44.netlify.app"],
     optionsSuccessStatus: 200
 }
 
