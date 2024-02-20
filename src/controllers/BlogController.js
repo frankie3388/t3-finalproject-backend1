@@ -38,16 +38,24 @@ router.get("/all", authenticateJWT, async (request, response) => {
         // Empty object in .find() means get ALL documents
         const results = await Blog.find({}).populate('user');
 
+        // Iterate through each post and retrieve signed URLs for all images
         for (const result of results) {
-            const getObjectParams = {
-                Bucket: bucketName,
-                Key: result.imagedata
-            }
-            const command = new GetObjectCommand(getObjectParams);
-            const url = await getSignedUrl(s3, command, {expiresIn: 3600})
-            result.imageUrl = url
-        }
+            const imageUrls = [];
 
+            // Iterate through each image in the imagedata array
+            for (const imageName of result.imagedata) {
+                const getObjectParams = {
+                    Bucket: bucketName,
+                    Key: imageName,
+                };
+                const command = new GetObjectCommand(getObjectParams);
+                const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+                imageUrls.push(url);
+            }
+
+            // Assign the array of image URLs to the post
+            result.imageUrls = imageUrls;
+        }
         response.json({
             Blog: results
         });
@@ -63,18 +71,29 @@ router.get("/:id", authenticateJWT, async (request, response) => {
   
         const result = await Blog.findById(blogId).populate('user');
 
-        //   generate signedUrl so that the client can use the imageUrl to fetch the image from Amazon s3 bucket
-        const getObjectParams = {
-            Bucket: bucketName,
-            Key: result.imagedata
-        }
-        const command = new GetObjectCommand(getObjectParams);
-        const url = await getSignedUrl(s3, command, {expiresIn: 3600})
-        result.imageUrl = url
-  
         if (!result) {
-        return response.status(404).json({ error: 'Blog not found' });
+                return response.status(404).json({ error: 'Blog not found' });
         }
+
+        const imageUrls = [];
+
+        for (const imageName of result.imagedata) {
+            
+            // Iterate through each image in the imagedata array
+            const getObjectParams = {
+                Bucket: bucketName,
+                Key: imageName,
+            };
+            const command = new GetObjectCommand(getObjectParams);
+            const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+            imageUrls.push(url);
+        }
+
+        // Assign the array of image URLs to the post
+        result.imageUrls = imageUrls;
+  
+        // Update the database with the new array of signed URLs
+        await result.save();
   
         response.json({
             Blog: result
@@ -84,6 +103,7 @@ router.get("/:id", authenticateJWT, async (request, response) => {
         response.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 // Find all blogs by username
 router.get("/multiple/username", authenticateJWT, async (request, response) => {
@@ -146,8 +166,6 @@ router.get("/multiple/location", authenticateJWT, async (request, response) => {
             result.imageUrl = url
         }
 
-
-
         if (results.length > 0) {
             response.json({
                 data: results,
@@ -165,7 +183,7 @@ router.get("/multiple/location", authenticateJWT, async (request, response) => {
 
 // Create a new blog in the DB
 // POST localhost:3000/blog/
-router.post("/image", authenticateJWT, upload.single('image'), async (request, response) => {
+router.post("/image", authenticateJWT, upload.array('images', 8), async (request, response) => {
 	try{
         
         console.log(request.user)
@@ -178,23 +196,34 @@ router.post("/image", authenticateJWT, upload.single('image'), async (request, r
         console.log("request.body", request.body)
         console.log("request.file", request.file)
 
-        // resize image
-        const buffer = await sharp(request.file.buffer).resize({
-            height: 1920,
-            width: 1080, 
-            fit: "cover"
-        }).toBuffer()
+        // Create an array to store image names
+        const imageNames = [];
 
-        const imageName = randomImageName();
-        const params = {
-            Bucket: bucketName,
-            Key: imageName,
-            Body: buffer,
-            ContentType: request.file.mimetype,
+        // Process each uploaded image
+        for (const file of request.files) {
+            // Resize image
+            const buffer = await sharp(file.buffer).resize({
+                height: 1920,
+                width: 1080,
+                fit: "cover"
+            }).toBuffer();
+
+            // Generate a random image name
+            const imageName = randomImageName();
+            const params = {
+                Bucket: bucketName,
+                Key: imageName,
+                Body: buffer,
+                ContentType: file.mimetype,
+            };
+
+            // Upload the image to S3
+            const command = new PutObjectCommand(params);
+            await s3.send(command);
+
+            // Add the image name to the array
+            imageNames.push(imageName);
         }
-
-        const command = new PutObjectCommand(params)
-        await s3.send(command)
 
         // Create a new blog entry in the database
         const result = await Blog.create({
@@ -205,7 +234,7 @@ router.post("/image", authenticateJWT, upload.single('image'), async (request, r
             locationcountry: request.body.locationcountry,
             body: request.body.body,
             tags: request.body.tags,
-            imagedata: imageName, // Store the image name in the database
+            imagedata: imageNames, // Store the image name in the database
             user: user, 
         });
 
@@ -223,7 +252,7 @@ router.post("/image", authenticateJWT, upload.single('image'), async (request, r
 // Find one blog by its ID, and modify that blog. 
 // Patch is for whatever properties are provided,
 // does not overwrite or remove any unmentioned properties of the blog
-router.patch("/image/:id", authenticateJWT, upload.single('image'), async (request, response) => {
+router.patch("/image/:id", authenticateJWT, upload.array('images', 8), async (request, response) => {
     try {
         const blogId = request.params.id;
         console.log(blogId);
@@ -241,8 +270,15 @@ router.patch("/image/:id", authenticateJWT, upload.single('image'), async (reque
 
         console.log(result.user._id)
 
+        // Create an array to store image names
+        // const imageNames = [];
+
         // Check if the logged in user is the user that created the blog or if they are admin
         if (result.user._id.toString() === request.user.userId || checkIsAdminUser.isAdmin) {
+
+            // Create an array to store image names
+            const imageNames = [];
+
             // Update the blog properties
             result.title = request.body.title || result.title;
             result.locationname = request.body.locationname || result.locationname;
@@ -250,29 +286,38 @@ router.patch("/image/:id", authenticateJWT, upload.single('image'), async (reque
             result.locationcity = request.body.locationcity || result.locationcity;
             result.locationcountry = request.body.locationcountry || result.locationcountry;
             result.body = request.body.body || result.body;
+            result.imagedata = result.imagedata || imageNames;
 
             // Check if a new image is provided
-            if (request.file) {
-                // Resize and upload the new image
-                const buffer = await sharp(request.file.buffer).resize({
-                    height: 1920,
-                    width: 1080,
-                    fit: "cover"
-                }).toBuffer();
+            if (request.files && request.files.length > 0) {
+                // Process each uploaded image
+                for (const file of request.files) {
+                    // Resize image
+                    const buffer = await sharp(file.buffer).resize({
+                        height: 1920,
+                        width: 1080,
+                        fit: "cover"
+                    }).toBuffer();
+                
+                    // Generate a random image name
+                    const imageName = randomImageName();
+                    const params = {
+                        Bucket: bucketName,
+                        Key: imageName,
+                        Body: buffer,
+                        ContentType: file.mimetype,
+                    };
+                
+                    // Upload the image to S3
+                    const command = new PutObjectCommand(params);
+                    await s3.send(command);
+                
+                    // Add the image name to the array
+                    imageNames.push(imageName);
+                }
 
-                const imageName = randomImageName();
-                const params = {
-                    Bucket: bucketName,
-                    Key: imageName,
-                    Body: buffer,
-                    ContentType: request.file.mimetype,
-                };
-
-                const command = new PutObjectCommand(params);
-                await s3.send(command);
-
-                // Update the image name in the blog
-                result.imagedata = imageName;
+                // Update the blog's imagedata with the new array of image names
+                result.imagedata = imageNames;
             }
 
             // Save the updated blog
