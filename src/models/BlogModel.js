@@ -39,12 +39,12 @@ const BlogSchema = new Schema({
 		unique: false
 	},
 	imagedata: {
-		type: String,
+		type: [String],
 		required: true,
 		unique: false
 	},
-	imageUrl: {
-		type: String,
+	imageUrls: {
+		type: [String],
 		required: false,
 		unique: false
 	},
