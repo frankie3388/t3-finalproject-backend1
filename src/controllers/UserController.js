@@ -4,6 +4,7 @@ const { User } = require('../models/UserModel');
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const { authenticateJWT } = require('../middleware/AuthMiddleware');
+const checkUniqueEmailAndUsername = require('../middleware/CheckUniqueUser');
 
 // Define routes for user controller
 // GET /users - Get all users
@@ -33,7 +34,7 @@ router.get('/users/:userid', async (req, res) => {
   });
 
 // POST /users - Create a new user
-router.post('/createuser', async (req, res) => {
+router.post('/createuser', checkUniqueEmailAndUsername, async (req, res) => {
     try {
         const { username, password, firstName, lastName, email, regionsOfInterest, countriesOfInterest,  isAdmin} = req.body;
 
