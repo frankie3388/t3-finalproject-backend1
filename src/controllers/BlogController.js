@@ -108,22 +108,30 @@ router.get("/:id", authenticateJWT, async (request, response) => {
 // Find all blogs by username
 router.get("/multiple/username", authenticateJWT, async (request, response) => {
     try {
+
         const blogUsername = request.query.q;
         const user_id = await User.find({username: blogUsername})
         const results = await Blog.find({ user: user_id }).populate('user');
 
-        //   generate signedUrl so that the client can use the imageUrl to fetch the image from Amazon s3 bucket
-        //   generate signedUrl so that the client can use the imageUrl to fetch the image from Amazon s3 bucket
+        // Iterate through each post and retrieve signed URLs for all images
         for (const result of results) {
-            const getObjectParams = {
-                Bucket: bucketName,
-                Key: result.imagedata
-            }
-            const command = new GetObjectCommand(getObjectParams);
-            const url = await getSignedUrl(s3, command, {expiresIn: 3600})
-            result.imageUrl = url
-        }
+            const imageUrls = [];
 
+            // Iterate through each image in the imagedata array
+            for (const imageName of result.imagedata) {
+                const getObjectParams = {
+                    Bucket: bucketName,
+                    Key: imageName,
+                };
+                const command = new GetObjectCommand(getObjectParams);
+                const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+                imageUrls.push(url);
+            }
+
+            // Assign the array of image URLs to the post
+            result.imageUrls = imageUrls;
+        }
+        
         if (!results || results.length === 0) {
             return response.status(404).json({ error: 'Blogs not found' });
         }
@@ -155,15 +163,23 @@ router.get("/multiple/location", authenticateJWT, async (request, response) => {
 
                 console.log("Query result:", results);
 
-        //   generate signedUrl so that the client can use the imageUrl to fetch the image from Amazon s3 bucket
+        // Iterate through each post and retrieve signed URLs for all images
         for (const result of results) {
-            const getObjectParams = {
-                Bucket: bucketName,
-                Key: result.imagedata
+            const imageUrls = [];
+
+            // Iterate through each image in the imagedata array
+            for (const imageName of result.imagedata) {
+                const getObjectParams = {
+                    Bucket: bucketName,
+                    Key: imageName,
+                };
+                const command = new GetObjectCommand(getObjectParams);
+                const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+                imageUrls.push(url);
             }
-            const command = new GetObjectCommand(getObjectParams);
-            const url = await getSignedUrl(s3, command, {expiresIn: 3600})
-            result.imageUrl = url
+
+            // Assign the array of image URLs to the post
+            result.imageUrls = imageUrls;
         }
 
         if (results.length > 0) {
@@ -314,6 +330,7 @@ router.patch("/image/:id", authenticateJWT, upload.array('images', 8), async (re
                 
                     // Add the image name to the array
                     imageNames.push(imageName);
+                    
                 }
 
                 // Update the blog's imagedata with the new array of image names
@@ -361,13 +378,16 @@ router.delete("/delete/:id", authenticateJWT, async (request, response) => {
         if (result.user._id.toString() === request.user.userId || checkIsAdminUser.isAdmin) {
 
             // Delete picture in S3 bucket
-            const params = {
-                Bucket: bucketName,
-                Key: result.imagedata,
-            };
-            const command = new DeleteObjectCommand(params);
-            await s3.send(command);
-        
+            // Iterate through each image in the imagedata array
+            for (const imageName of result.imagedata) {
+                const params = {
+                    Bucket: bucketName,
+                    Key: imageName,
+                };
+                const command = new DeleteObjectCommand(params);
+                await s3.send(command);
+            }
+            
             // Delete blog
             const deletedBlog = await Blog.deleteOne({ _id: blogId })
 
